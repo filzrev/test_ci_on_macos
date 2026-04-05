@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Solution Items/" />
+  <Folder Name="/Solution Items/.github/" />
+  <Folder Name="/Solution Items/.github/workflows/">
+    <File Path=".github/workflows/run-tests.yaml" />
+  </Folder>
+  <Project Path="Benchmarks/Benchmarks.csproj" />
+</Solution>
