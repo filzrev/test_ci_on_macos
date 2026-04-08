@@ -15,24 +15,37 @@ jobs:
   tests:
     name: test-${{ matrix.os.runs-on }} (${{ matrix.os.arch }})
     runs-on: ${{ matrix.os.runs-on }}
+    timeout-minutes: 5
     strategy:
       fail-fast: false
       matrix:
         os:
           - runs-on: 'macos-latest'
             arch: 'arm64'
+          - runs-on: 'macos-15-intel'
+            arch: 'x64'
+          - runs-on: 'ubuntu-latest'
+            arch: 'x64'
           - runs-on: 'ubuntu-24.04-arm'
             arch: 'arm64'
+          - runs-on: 'windows-latest'
+            arch: 'x64'
+
     steps:
       - uses: actions/checkout@v6
+  
       - run: dotnet build -c Release
-      - name: Run tests
-        run: dotnet test -c Release --no-build --diagnostic --diagnostic-verbosity Trace
+  
+      - name: Run tests(with `dotnet run`)
+        run: dotnet run --project Benchmarks -c Release --no-build --diagnostic --diagnostic-verbosity Trace
+
+      #- name: Run tests(with `dotnet test`)
+      #  run: dotnet test -c Release --no-build --diagnostic --diagnostic-verbosity Trace
 
       # Upload Artifacts with Unique Name
       - name: Upload test results
         uses: actions/upload-artifact@v6
         if: always()
         with:
-          name: test-${{ matrix.os.runs-on }}(${{ matrix.os.arch }})-trx-${{ github.run_id }}
+          name: test-${{ matrix.os.runs-on }}(${{ matrix.os.arch }})-${{ github.run_id }}
           path: "**/log_*.diag"
