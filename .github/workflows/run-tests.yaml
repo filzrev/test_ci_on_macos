@@ -22,8 +22,8 @@ jobs:
         os:
           - runs-on: 'macos-latest'
             arch: 'arm64'
-          - runs-on: 'macos-15-intel'
-            arch: 'x64'
+          #- runs-on: 'macos-15-intel'
+          #  arch: 'x64'
           - runs-on: 'ubuntu-latest'
             arch: 'x64'
           - runs-on: 'ubuntu-24.04-arm'
@@ -37,7 +37,8 @@ jobs:
       - run: dotnet build -c Release
   
       - name: Run tests(with `dotnet run`)
-        run: dotnet run --project Benchmarks -c Release --no-build --diagnostic --diagnostic-verbosity Trace
+        run: dotnet run --project Benchmarks -c Release --no-build
+        # run: dotnet run --project Benchmarks -c Release --no-build --diagnostic --diagnostic-verbosity Trace
 
       #- name: Run tests(with `dotnet test`)
       #  run: dotnet test -c Release --no-build --diagnostic --diagnostic-verbosity Trace
